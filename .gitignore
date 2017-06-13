@@ -1,0 +1,6 @@
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# Ignore only the workspace; who cares what you have open?
+*.sublime-workspace
