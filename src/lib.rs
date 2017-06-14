@@ -3,6 +3,8 @@
 
 //! Oxygine Game Engine
 
+pub mod math;
+
 pub mod time;
 use time::Time;
 
