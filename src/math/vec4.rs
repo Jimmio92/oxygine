@@ -16,6 +16,19 @@ pub struct Vec4<T> {
     pub w: T
 }
 
+/// Construct methods for generic Vec4
+impl<T> Vec4<T> {
+    /// Constructs a generic Vec2 from values x and y
+    pub fn from(x: T, y: T, z: T, w: T) -> Self {
+        Vec4 {
+            x: x,
+            y: y,
+            z: z,
+            w: w
+        }
+    }
+}
+
 /// Construct methods for Vec4<f32>
 impl Vec4<f32> {
     /// Constructs a new Vec4<f32> with x, y, z and w values set to 0
@@ -45,290 +58,281 @@ impl Vec4<f32> {
             w: 1.0
         }
     }
-    /// Constructs a new Vec4<f32> from values x, y, z and w
-    #[inline]
-    pub fn from(x: f32, y: f32, z: f32, w: f32) -> Self {
-        Vec4 {
-            x: x,
-            y: y,
-            z: z,
-            w: w
-        }
-    }
 }
 
-/// Get methods for Vec4<f32>
-impl Vec4<f32> {
+/// Get methods for Vec4<T> where T implements the Copy trait (this includes
+/// built-in types such as f32, u32, etc.)
+impl<T> Vec4<T> where T: Copy {
     /// "Swizzle-like" method returning the x value
     #[inline]
-    pub fn x(&self) -> f32 {
+    pub fn x(&self) -> T {
         self.x
     }
     /// "Swizzle-like" method returning the y value
     #[inline]
-    pub fn y(&self) -> f32 {
+    pub fn y(&self) -> T {
         self.y
     }
     /// "Swizzle-like" method returning the z value
-    pub fn z(&self) -> f32 {
+    pub fn z(&self) -> T {
         self.z
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to x and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
     /// `y` set to x
     #[inline]
-    pub fn xx(&self) -> super::vec2::Vec2<f32> {
+    pub fn xx(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.x,
             y: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to x and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
     /// `y` set to y
     #[inline]
-    pub fn xy(&self) -> super::vec2::Vec2<f32> {
+    pub fn xy(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.x,
             y: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to x and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
     /// `y` set to z
     #[inline]
-    pub fn xz(&self) -> super::vec2::Vec2<f32> {
+    pub fn xz(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.x,
             y: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to y and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
     /// `y` set to x
     #[inline]
-    pub fn yx(&self) -> super::vec2::Vec2<f32> {
+    pub fn yx(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.y,
             y: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to y and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
     /// `y` set to y
     #[inline]
-    pub fn yy(&self) -> super::vec2::Vec2<f32> {
+    pub fn yy(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.y,
             y: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to y and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
     /// `y` set to z
     #[inline]
-    pub fn yz(&self) -> super::vec2::Vec2<f32> {
+    pub fn yz(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.y,
             y: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to z and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
     /// `y` set to x
     #[inline]
-    pub fn zx(&self) -> super::vec2::Vec2<f32> {
+    pub fn zx(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.z,
             y: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to z and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
     /// `y` set to y
     #[inline]
-    pub fn zy(&self) -> super::vec2::Vec2<f32> {
+    pub fn zy(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.z,
             y: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to z and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
     /// `y` set to z
     #[inline]
-    pub fn zz(&self) -> super::vec2::Vec2<f32> {
+    pub fn zz(&self) -> super::vec2::Vec2<T> {
         super::vec2::Vec2 {
             x: self.z,
             y: self.z
         }
     }
 
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to x and `z` set to x
     #[inline]
-    pub fn xxx(&self) -> super::vec3::Vec3<f32> {
+    pub fn xxx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.x,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to x and `z` set to y
     #[inline]
-    pub fn xxy(&self) -> super::vec3::Vec3<f32> {
+    pub fn xxy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.x,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to x and `z` set to z
     #[inline]
-    pub fn xxz(&self) -> super::vec3::Vec3<f32> {
+    pub fn xxz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.x,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to y and `z` set to x
     #[inline]
-    pub fn xyx(&self) -> super::vec3::Vec3<f32> {
+    pub fn xyx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.y,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to y and `z` set to y
     #[inline]
-    pub fn xyy(&self) -> super::vec3::Vec3<f32> {
+    pub fn xyy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.y,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to y and `z` set to z
     #[inline]
-    pub fn xyz(&self) -> super::vec3::Vec3<f32> {
+    pub fn xyz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.y,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to z and `z` set to x
     #[inline]
-    pub fn xzx(&self) -> super::vec3::Vec3<f32> {
+    pub fn xzx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.z,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to z and `z` set to y
     #[inline]
-    pub fn xzy(&self) -> super::vec3::Vec3<f32> {
+    pub fn xzy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.z,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
     /// `y` set to z and `z` set to z
     #[inline]
-    pub fn xzz(&self) -> super::vec3::Vec3<f32> {
+    pub fn xzz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.x,
             y: self.z,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to x and `z` set to x
     #[inline]
-    pub fn yxx(&self) -> super::vec3::Vec3<f32> {
+    pub fn yxx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.x,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to x and `z` set to y
     #[inline]
-    pub fn yxy(&self) -> super::vec3::Vec3<f32> {
+    pub fn yxy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.x,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to x and `z` set to z
     #[inline]
-    pub fn yxz(&self) -> super::vec3::Vec3<f32> {
+    pub fn yxz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.x,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to y and `z` set to x
     #[inline]
-    pub fn yyx(&self) -> super::vec3::Vec3<f32> {
+    pub fn yyx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.y,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to y and `z` set to y
     #[inline]
-    pub fn yyy(&self) -> super::vec3::Vec3<f32> {
+    pub fn yyy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.y,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to y and `z` set to z
     #[inline]
-    pub fn yyz(&self) -> super::vec3::Vec3<f32> {
+    pub fn yyz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.y,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to z and `z` set to x
     #[inline]
-    pub fn yzx(&self) -> super::vec3::Vec3<f32> {
+    pub fn yzx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.z,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to z and `z` set to y
     #[inline]
-    pub fn yzy(&self) -> super::vec3::Vec3<f32> {
+    pub fn yzy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.z,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
     /// `y` set to z and `z` set to z
     #[inline]
-    pub fn yzz(&self) -> super::vec3::Vec3<f32> {
+    pub fn yzz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.y,
             y: self.z,
@@ -336,90 +340,90 @@ impl Vec4<f32> {
         }
     }
 
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to x and `z` set to x
     #[inline]
-    pub fn zxx(&self) -> super::vec3::Vec3<f32> {
+    pub fn zxx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.x,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to x and `z` set to y
     #[inline]
-    pub fn zxy(&self) -> super::vec3::Vec3<f32> {
+    pub fn zxy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.x,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to x and `z` set to z
     #[inline]
-    pub fn zxz(&self) -> super::vec3::Vec3<f32> {
+    pub fn zxz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.x,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to y and `z` set to x
     #[inline]
-    pub fn zyx(&self) -> super::vec3::Vec3<f32> {
+    pub fn zyx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.y,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to y and `z` set to y
     #[inline]
-    pub fn zyy(&self) -> super::vec3::Vec3<f32> {
+    pub fn zyy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.y,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to y and `z` set to z
     #[inline]
-    pub fn zyz(&self) -> super::vec3::Vec3<f32> {
+    pub fn zyz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.y,
             z: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to z and `z` set to x
     #[inline]
-    pub fn zzx(&self) -> super::vec3::Vec3<f32> {
+    pub fn zzx(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.z,
             z: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to z and `z` set to y
     #[inline]
-    pub fn zzy(&self) -> super::vec3::Vec3<f32> {
+    pub fn zzy(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.z,
             z: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec3<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
     /// `y` set to z and `z` set to z
     #[inline]
-    pub fn zzz(&self) -> super::vec3::Vec3<f32> {
+    pub fn zzz(&self) -> super::vec3::Vec3<T> {
         super::vec3::Vec3 {
             x: self.z,
             y: self.z,
@@ -427,7 +431,7 @@ impl Vec4<f32> {
         }
     }
 
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to x and `w` set to x
     #[inline]
     pub fn xxxx(&self) -> Self {
@@ -438,7 +442,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to x and `w` set to y
     #[inline]
     pub fn xxxy(&self) -> Self {
@@ -449,7 +453,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to x and `w` set to z
     #[inline]
     pub fn xxxz(&self) -> Self {
@@ -460,7 +464,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to x and `w` set to w
     #[inline]
     pub fn xxxw(&self) -> Self {
@@ -471,7 +475,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to y and `w` set to x
     #[inline]
     pub fn xxyx(&self) -> Self {
@@ -482,7 +486,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to y and `w` set to y
     #[inline]
     pub fn xxyy(&self) -> Self {
@@ -493,7 +497,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to y and `w` set to z
     #[inline]
     pub fn xxyz(&self) -> Self {
@@ -504,7 +508,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to y and `w` set to w
     #[inline]
     pub fn xxyw(&self) -> Self {
@@ -515,7 +519,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to z and `w` set to x
     #[inline]
     pub fn xxzx(&self) -> Self {
@@ -526,7 +530,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to z and `w` set to y
     #[inline]
     pub fn xxzy(&self) -> Self {
@@ -537,7 +541,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to z and `w` set to z
     #[inline]
     pub fn xxzz(&self) -> Self {
@@ -548,7 +552,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to z and `w` set to w
     #[inline]
     pub fn xxzw(&self) -> Self {
@@ -559,7 +563,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to w and `w` set to x
     #[inline]
     pub fn xxwx(&self) -> Self {
@@ -570,7 +574,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to w and `w` set to y
     #[inline]
     pub fn xxwy(&self) -> Self {
@@ -581,7 +585,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to w and `w` set to z
     #[inline]
     pub fn xxwz(&self) -> Self {
@@ -592,7 +596,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to x, `z` set to w and `w` set to w
     #[inline]
     pub fn xxww(&self) -> Self {
@@ -603,7 +607,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to x and `w` set to x
     #[inline]
     pub fn xyxx(&self) -> Self {
@@ -614,7 +618,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to x and `w` set to y
     #[inline]
     pub fn xyxy(&self) -> Self {
@@ -625,7 +629,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to x and `w` set to z
     #[inline]
     pub fn xyxz(&self) -> Self {
@@ -636,7 +640,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to x and `w` set to w
     #[inline]
     pub fn xyxw(&self) -> Self {
@@ -647,7 +651,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to y and `w` set to x
     #[inline]
     pub fn xyyx(&self) -> Self {
@@ -658,7 +662,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to y and `w` set to y
     #[inline]
     pub fn xyyy(&self) -> Self {
@@ -669,7 +673,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to y and `w` set to z
     #[inline]
     pub fn xyyz(&self) -> Self {
@@ -680,7 +684,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to y and `w` set to w
     #[inline]
     pub fn xyyw(&self) -> Self {
@@ -691,7 +695,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to z and `w` set to x
     #[inline]
     pub fn xyzx(&self) -> Self {
@@ -702,7 +706,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to z and `w` set to y
     #[inline]
     pub fn xyzy(&self) -> Self {
@@ -713,7 +717,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to z and `w` set to z
     #[inline]
     pub fn xyzz(&self) -> Self {
@@ -724,7 +728,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to z and `w` set to w
     #[inline]
     pub fn xyzw(&self) -> Self {
@@ -735,7 +739,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to w and `w` set to x
     #[inline]
     pub fn xywx(&self) -> Self {
@@ -746,7 +750,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to w and `w` set to y
     #[inline]
     pub fn xywy(&self) -> Self {
@@ -757,7 +761,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to w and `w` set to z
     #[inline]
     pub fn xywz(&self) -> Self {
@@ -768,7 +772,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to y, `z` set to w and `w` set to w
     #[inline]
     pub fn xyww(&self) -> Self {
@@ -779,7 +783,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to x and `w` set to x
     #[inline]
     pub fn xzxx(&self) -> Self {
@@ -790,7 +794,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to x and `w` set to y
     #[inline]
     pub fn xzxy(&self) -> Self {
@@ -801,7 +805,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to x and `w` set to z
     #[inline]
     pub fn xzxz(&self) -> Self {
@@ -812,7 +816,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to x and `w` set to w
     #[inline]
     pub fn xzxw(&self) -> Self {
@@ -823,7 +827,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to y and `w` set to x
     #[inline]
     pub fn xzyx(&self) -> Self {
@@ -834,7 +838,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to y and `w` set to y
     #[inline]
     pub fn xzyy(&self) -> Self {
@@ -845,7 +849,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to y and `w` set to z
     #[inline]
     pub fn xzyz(&self) -> Self {
@@ -856,7 +860,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to y and `w` set to w
     #[inline]
     pub fn xzyw(&self) -> Self {
@@ -867,7 +871,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to z and `w` set to x
     #[inline]
     pub fn xzzx(&self) -> Self {
@@ -878,7 +882,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to z and `w` set to y
     #[inline]
     pub fn xzzy(&self) -> Self {
@@ -889,7 +893,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to z and `w` set to z
     #[inline]
     pub fn xzzz(&self) -> Self {
@@ -900,7 +904,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to z and `w` set to w
     #[inline]
     pub fn xzzw(&self) -> Self {
@@ -911,7 +915,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to w and `w` set to x
     #[inline]
     pub fn xzwx(&self) -> Self {
@@ -922,7 +926,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to w and `w` set to y
     #[inline]
     pub fn xzwy(&self) -> Self {
@@ -933,7 +937,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to w and `w` set to z
     #[inline]
     pub fn xzwz(&self) -> Self {
@@ -944,7 +948,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to z, `z` set to w and `w` set to w
     #[inline]
     pub fn xzww(&self) -> Self {
@@ -955,7 +959,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to x and `w` set to x
     #[inline]
     pub fn xwxx(&self) -> Self {
@@ -966,7 +970,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to x and `w` set to y
     #[inline]
     pub fn xwxy(&self) -> Self {
@@ -977,7 +981,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to x and `w` set to z
     #[inline]
     pub fn xwxz(&self) -> Self {
@@ -988,7 +992,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to x and `w` set to w
     #[inline]
     pub fn xwxw(&self) -> Self {
@@ -999,7 +1003,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to y and `w` set to x
     #[inline]
     pub fn xwyx(&self) -> Self {
@@ -1010,7 +1014,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to y and `w` set to y
     #[inline]
     pub fn xwyy(&self) -> Self {
@@ -1021,7 +1025,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to y and `w` set to z
     #[inline]
     pub fn xwyz(&self) -> Self {
@@ -1032,7 +1036,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to y and `w` set to w
     #[inline]
     pub fn xwyw(&self) -> Self {
@@ -1043,7 +1047,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to z and `w` set to x
     #[inline]
     pub fn xwzx(&self) -> Self {
@@ -1054,7 +1058,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to z and `w` set to y
     #[inline]
     pub fn xwzy(&self) -> Self {
@@ -1065,7 +1069,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to z and `w` set to z
     #[inline]
     pub fn xwzz(&self) -> Self {
@@ -1076,7 +1080,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to z and `w` set to w
     #[inline]
     pub fn xwzw(&self) -> Self {
@@ -1087,7 +1091,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to w and `w` set to x
     #[inline]
     pub fn xwwx(&self) -> Self {
@@ -1098,7 +1102,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to w and `w` set to y
     #[inline]
     pub fn xwwy(&self) -> Self {
@@ -1109,7 +1113,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to w and `w` set to z
     #[inline]
     pub fn xwwz(&self) -> Self {
@@ -1120,7 +1124,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to x,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to x,
     /// `y` set to w, `z` set to w and `w` set to w
     #[inline]
     pub fn xwww(&self) -> Self {
@@ -1131,7 +1135,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to x and `w` set to x
     #[inline]
     pub fn yxxx(&self) -> Self {
@@ -1142,7 +1146,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to x and `w` set to y
     #[inline]
     pub fn yxxy(&self) -> Self {
@@ -1153,7 +1157,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to x and `w` set to z
     #[inline]
     pub fn yxxz(&self) -> Self {
@@ -1164,7 +1168,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to x and `w` set to w
     #[inline]
     pub fn yxxw(&self) -> Self {
@@ -1175,7 +1179,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to y and `w` set to x
     #[inline]
     pub fn yxyx(&self) -> Self {
@@ -1186,7 +1190,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to y and `w` set to y
     #[inline]
     pub fn yxyy(&self) -> Self {
@@ -1197,7 +1201,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to y and `w` set to z
     #[inline]
     pub fn yxyz(&self) -> Self {
@@ -1208,7 +1212,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to y and `w` set to w
     #[inline]
     pub fn yxyw(&self) -> Self {
@@ -1219,7 +1223,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to z and `w` set to x
     #[inline]
     pub fn yxzx(&self) -> Self {
@@ -1230,7 +1234,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to z and `w` set to y
     #[inline]
     pub fn yxzy(&self) -> Self {
@@ -1241,7 +1245,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to z and `w` set to z
     #[inline]
     pub fn yxzz(&self) -> Self {
@@ -1252,7 +1256,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to z and `w` set to w
     #[inline]
     pub fn yxzw(&self) -> Self {
@@ -1263,7 +1267,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to w and `w` set to x
     #[inline]
     pub fn yxwx(&self) -> Self {
@@ -1274,7 +1278,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to w and `w` set to y
     #[inline]
     pub fn yxwy(&self) -> Self {
@@ -1285,7 +1289,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to w and `w` set to z
     #[inline]
     pub fn yxwz(&self) -> Self {
@@ -1296,7 +1300,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to x, `z` set to w and `w` set to w
     #[inline]
     pub fn yxww(&self) -> Self {
@@ -1307,7 +1311,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to x and `w` set to x
     #[inline]
     pub fn yyxx(&self) -> Self {
@@ -1318,7 +1322,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to x and `w` set to y
     #[inline]
     pub fn yyxy(&self) -> Self {
@@ -1329,7 +1333,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to x and `w` set to z
     #[inline]
     pub fn yyxz(&self) -> Self {
@@ -1340,7 +1344,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to x and `w` set to w
     #[inline]
     pub fn yyxw(&self) -> Self {
@@ -1351,7 +1355,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to y and `w` set to x
     #[inline]
     pub fn yyyx(&self) -> Self {
@@ -1362,7 +1366,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to y and `w` set to y
     #[inline]
     pub fn yyyy(&self) -> Self {
@@ -1373,7 +1377,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to y and `w` set to z
     #[inline]
     pub fn yyyz(&self) -> Self {
@@ -1384,7 +1388,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to y and `w` set to w
     #[inline]
     pub fn yyyw(&self) -> Self {
@@ -1395,7 +1399,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to z and `w` set to x
     #[inline]
     pub fn yyzx(&self) -> Self {
@@ -1406,7 +1410,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to z and `w` set to y
     #[inline]
     pub fn yyzy(&self) -> Self {
@@ -1417,7 +1421,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to z and `w` set to z
     #[inline]
     pub fn yyzz(&self) -> Self {
@@ -1428,7 +1432,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to z and `w` set to w
     #[inline]
     pub fn yyzw(&self) -> Self {
@@ -1439,7 +1443,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to w and `w` set to x
     #[inline]
     pub fn yywx(&self) -> Self {
@@ -1450,7 +1454,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to w and `w` set to y
     #[inline]
     pub fn yywy(&self) -> Self {
@@ -1461,7 +1465,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to w and `w` set to z
     #[inline]
     pub fn yywz(&self) -> Self {
@@ -1472,7 +1476,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to y, `z` set to w and `w` set to w
     #[inline]
     pub fn yyww(&self) -> Self {
@@ -1483,7 +1487,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to x and `w` set to x
     #[inline]
     pub fn yzxx(&self) -> Self {
@@ -1494,7 +1498,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to x and `w` set to y
     #[inline]
     pub fn yzxy(&self) -> Self {
@@ -1505,7 +1509,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to x and `w` set to z
     #[inline]
     pub fn yzxz(&self) -> Self {
@@ -1516,7 +1520,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to x and `w` set to w
     #[inline]
     pub fn yzxw(&self) -> Self {
@@ -1527,7 +1531,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to y and `w` set to x
     #[inline]
     pub fn yzyx(&self) -> Self {
@@ -1538,7 +1542,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to y and `w` set to y
     #[inline]
     pub fn yzyy(&self) -> Self {
@@ -1549,7 +1553,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to y and `w` set to z
     #[inline]
     pub fn yzyz(&self) -> Self {
@@ -1560,7 +1564,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to y and `w` set to w
     #[inline]
     pub fn yzyw(&self) -> Self {
@@ -1571,7 +1575,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to z and `w` set to x
     #[inline]
     pub fn yzzx(&self) -> Self {
@@ -1582,7 +1586,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to z and `w` set to y
     #[inline]
     pub fn yzzy(&self) -> Self {
@@ -1593,7 +1597,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to z and `w` set to z
     #[inline]
     pub fn yzzz(&self) -> Self {
@@ -1604,7 +1608,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to z and `w` set to w
     #[inline]
     pub fn yzzw(&self) -> Self {
@@ -1615,7 +1619,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to w and `w` set to x
     #[inline]
     pub fn yzwx(&self) -> Self {
@@ -1626,7 +1630,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to w and `w` set to y
     #[inline]
     pub fn yzwy(&self) -> Self {
@@ -1637,7 +1641,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to w and `w` set to z
     #[inline]
     pub fn yzwz(&self) -> Self {
@@ -1648,7 +1652,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to z, `z` set to w and `w` set to w
     #[inline]
     pub fn yzww(&self) -> Self {
@@ -1659,7 +1663,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to x and `w` set to x
     #[inline]
     pub fn ywxx(&self) -> Self {
@@ -1670,7 +1674,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to x and `w` set to y
     #[inline]
     pub fn ywxy(&self) -> Self {
@@ -1681,7 +1685,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to x and `w` set to z
     #[inline]
     pub fn ywxz(&self) -> Self {
@@ -1692,7 +1696,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to x and `w` set to w
     #[inline]
     pub fn ywxw(&self) -> Self {
@@ -1703,7 +1707,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to y and `w` set to x
     #[inline]
     pub fn ywyx(&self) -> Self {
@@ -1714,7 +1718,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to y and `w` set to y
     #[inline]
     pub fn ywyy(&self) -> Self {
@@ -1725,7 +1729,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to y and `w` set to z
     #[inline]
     pub fn ywyz(&self) -> Self {
@@ -1736,7 +1740,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to y and `w` set to w
     #[inline]
     pub fn ywyw(&self) -> Self {
@@ -1747,7 +1751,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to z and `w` set to x
     #[inline]
     pub fn ywzx(&self) -> Self {
@@ -1758,7 +1762,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to z and `w` set to y
     #[inline]
     pub fn ywzy(&self) -> Self {
@@ -1769,7 +1773,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to z and `w` set to z
     #[inline]
     pub fn ywzz(&self) -> Self {
@@ -1780,7 +1784,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to z and `w` set to w
     #[inline]
     pub fn ywzw(&self) -> Self {
@@ -1791,7 +1795,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to w and `w` set to x
     #[inline]
     pub fn ywwx(&self) -> Self {
@@ -1802,7 +1806,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to w and `w` set to y
     #[inline]
     pub fn ywwy(&self) -> Self {
@@ -1813,7 +1817,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to w and `w` set to z
     #[inline]
     pub fn ywwz(&self) -> Self {
@@ -1824,7 +1828,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to y,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to y,
     /// `y` set to w, `z` set to w and `w` set to w
     #[inline]
     pub fn ywww(&self) -> Self {
@@ -1835,7 +1839,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to x and `w` set to x
     #[inline]
     pub fn zxxx(&self) -> Self {
@@ -1846,7 +1850,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to x and `w` set to y
     #[inline]
     pub fn zxxy(&self) -> Self {
@@ -1857,7 +1861,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to x and `w` set to z
     #[inline]
     pub fn zxxz(&self) -> Self {
@@ -1868,7 +1872,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to x and `w` set to w
     #[inline]
     pub fn zxxw(&self) -> Self {
@@ -1879,7 +1883,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to y and `w` set to x
     #[inline]
     pub fn zxyx(&self) -> Self {
@@ -1890,7 +1894,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to y and `w` set to y
     #[inline]
     pub fn zxyy(&self) -> Self {
@@ -1901,7 +1905,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to y and `w` set to z
     #[inline]
     pub fn zxyz(&self) -> Self {
@@ -1912,7 +1916,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to y and `w` set to w
     #[inline]
     pub fn zxyw(&self) -> Self {
@@ -1923,7 +1927,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to z and `w` set to x
     #[inline]
     pub fn zxzx(&self) -> Self {
@@ -1934,7 +1938,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to z and `w` set to y
     #[inline]
     pub fn zxzy(&self) -> Self {
@@ -1945,7 +1949,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to z and `w` set to z
     #[inline]
     pub fn zxzz(&self) -> Self {
@@ -1956,7 +1960,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to z and `w` set to w
     #[inline]
     pub fn zxzw(&self) -> Self {
@@ -1967,7 +1971,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to w and `w` set to x
     #[inline]
     pub fn zxwx(&self) -> Self {
@@ -1978,7 +1982,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to w and `w` set to y
     #[inline]
     pub fn zxwy(&self) -> Self {
@@ -1989,7 +1993,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to w and `w` set to z
     #[inline]
     pub fn zxwz(&self) -> Self {
@@ -2000,7 +2004,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to x, `z` set to w and `w` set to w
     #[inline]
     pub fn zxww(&self) -> Self {
@@ -2011,7 +2015,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to x and `w` set to x
     #[inline]
     pub fn zyxx(&self) -> Self {
@@ -2022,7 +2026,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to x and `w` set to y
     #[inline]
     pub fn zyxy(&self) -> Self {
@@ -2033,7 +2037,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to x and `w` set to z
     #[inline]
     pub fn zyxz(&self) -> Self {
@@ -2044,7 +2048,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to x and `w` set to w
     #[inline]
     pub fn zyxw(&self) -> Self {
@@ -2055,7 +2059,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to y and `w` set to x
     #[inline]
     pub fn zyyx(&self) -> Self {
@@ -2066,7 +2070,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to y and `w` set to y
     #[inline]
     pub fn zyyy(&self) -> Self {
@@ -2077,7 +2081,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to y and `w` set to z
     #[inline]
     pub fn zyyz(&self) -> Self {
@@ -2088,7 +2092,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to y and `w` set to w
     #[inline]
     pub fn zyyw(&self) -> Self {
@@ -2099,7 +2103,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to z and `w` set to x
     #[inline]
     pub fn zyzx(&self) -> Self {
@@ -2110,7 +2114,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to z and `w` set to y
     #[inline]
     pub fn zyzy(&self) -> Self {
@@ -2121,7 +2125,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to z and `w` set to z
     #[inline]
     pub fn zyzz(&self) -> Self {
@@ -2132,7 +2136,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to z and `w` set to w
     #[inline]
     pub fn zyzw(&self) -> Self {
@@ -2143,7 +2147,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to w and `w` set to x
     #[inline]
     pub fn zywx(&self) -> Self {
@@ -2154,7 +2158,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to w and `w` set to y
     #[inline]
     pub fn zywy(&self) -> Self {
@@ -2165,7 +2169,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to w and `w` set to z
     #[inline]
     pub fn zywz(&self) -> Self {
@@ -2176,7 +2180,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to y, `z` set to w and `w` set to w
     #[inline]
     pub fn zyww(&self) -> Self {
@@ -2187,7 +2191,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to x and `w` set to x
     #[inline]
     pub fn zzxx(&self) -> Self {
@@ -2198,7 +2202,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to x and `w` set to y
     #[inline]
     pub fn zzxy(&self) -> Self {
@@ -2209,7 +2213,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to x and `w` set to z
     #[inline]
     pub fn zzxz(&self) -> Self {
@@ -2220,7 +2224,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to x and `w` set to w
     #[inline]
     pub fn zzxw(&self) -> Self {
@@ -2231,7 +2235,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to y and `w` set to x
     #[inline]
     pub fn zzyx(&self) -> Self {
@@ -2242,7 +2246,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to y and `w` set to y
     #[inline]
     pub fn zzyy(&self) -> Self {
@@ -2253,7 +2257,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to y and `w` set to z
     #[inline]
     pub fn zzyz(&self) -> Self {
@@ -2264,7 +2268,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to y and `w` set to w
     #[inline]
     pub fn zzyw(&self) -> Self {
@@ -2275,7 +2279,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to z and `w` set to x
     #[inline]
     pub fn zzzx(&self) -> Self {
@@ -2286,7 +2290,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to z and `w` set to y
     #[inline]
     pub fn zzzy(&self) -> Self {
@@ -2297,7 +2301,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to z and `w` set to z
     #[inline]
     pub fn zzzz(&self) -> Self {
@@ -2308,7 +2312,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to z and `w` set to w
     #[inline]
     pub fn zzzw(&self) -> Self {
@@ -2319,7 +2323,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to w and `w` set to x
     #[inline]
     pub fn zzwx(&self) -> Self {
@@ -2330,7 +2334,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to w and `w` set to y
     #[inline]
     pub fn zzwy(&self) -> Self {
@@ -2341,7 +2345,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to w and `w` set to z
     #[inline]
     pub fn zzwz(&self) -> Self {
@@ -2352,7 +2356,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to z, `z` set to w and `w` set to w
     #[inline]
     pub fn zzww(&self) -> Self {
@@ -2363,7 +2367,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to x and `w` set to x
     #[inline]
     pub fn zwxx(&self) -> Self {
@@ -2374,7 +2378,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to x and `w` set to y
     #[inline]
     pub fn zwxy(&self) -> Self {
@@ -2385,7 +2389,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to x and `w` set to z
     #[inline]
     pub fn zwxz(&self) -> Self {
@@ -2396,7 +2400,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to x and `w` set to w
     #[inline]
     pub fn zwxw(&self) -> Self {
@@ -2407,7 +2411,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to y and `w` set to x
     #[inline]
     pub fn zwyx(&self) -> Self {
@@ -2418,7 +2422,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to y and `w` set to y
     #[inline]
     pub fn zwyy(&self) -> Self {
@@ -2429,7 +2433,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to y and `w` set to z
     #[inline]
     pub fn zwyz(&self) -> Self {
@@ -2440,7 +2444,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to y and `w` set to w
     #[inline]
     pub fn zwyw(&self) -> Self {
@@ -2451,7 +2455,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to z and `w` set to x
     #[inline]
     pub fn zwzx(&self) -> Self {
@@ -2462,7 +2466,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to z and `w` set to y
     #[inline]
     pub fn zwzy(&self) -> Self {
@@ -2473,7 +2477,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to z and `w` set to z
     #[inline]
     pub fn zwzz(&self) -> Self {
@@ -2484,7 +2488,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to z and `w` set to w
     #[inline]
     pub fn zwzw(&self) -> Self {
@@ -2495,7 +2499,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to w and `w` set to x
     #[inline]
     pub fn zwwx(&self) -> Self {
@@ -2506,7 +2510,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to w and `w` set to y
     #[inline]
     pub fn zwwy(&self) -> Self {
@@ -2517,7 +2521,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to w and `w` set to z
     #[inline]
     pub fn zwwz(&self) -> Self {
@@ -2528,7 +2532,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to z,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to z,
     /// `y` set to w, `z` set to w and `w` set to w
     #[inline]
     pub fn zwww(&self) -> Self {
@@ -2539,7 +2543,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to x and `w` set to x
     #[inline]
     pub fn wxxx(&self) -> Self {
@@ -2550,7 +2554,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to x and `w` set to y
     #[inline]
     pub fn wxxy(&self) -> Self {
@@ -2561,7 +2565,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to x and `w` set to z
     #[inline]
     pub fn wxxz(&self) -> Self {
@@ -2572,7 +2576,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to x and `w` set to w
     #[inline]
     pub fn wxxw(&self) -> Self {
@@ -2583,7 +2587,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to y and `w` set to x
     #[inline]
     pub fn wxyx(&self) -> Self {
@@ -2594,7 +2598,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to y and `w` set to y
     #[inline]
     pub fn wxyy(&self) -> Self {
@@ -2605,7 +2609,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to y and `w` set to z
     #[inline]
     pub fn wxyz(&self) -> Self {
@@ -2616,7 +2620,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to y and `w` set to w
     #[inline]
     pub fn wxyw(&self) -> Self {
@@ -2627,7 +2631,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to z and `w` set to x
     #[inline]
     pub fn wxzx(&self) -> Self {
@@ -2638,7 +2642,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to z and `w` set to y
     #[inline]
     pub fn wxzy(&self) -> Self {
@@ -2649,7 +2653,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to z and `w` set to z
     #[inline]
     pub fn wxzz(&self) -> Self {
@@ -2660,7 +2664,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to z and `w` set to w
     #[inline]
     pub fn wxzw(&self) -> Self {
@@ -2671,7 +2675,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to w and `w` set to x
     #[inline]
     pub fn wxwx(&self) -> Self {
@@ -2682,7 +2686,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to w and `w` set to y
     #[inline]
     pub fn wxwy(&self) -> Self {
@@ -2693,7 +2697,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to w and `w` set to z
     #[inline]
     pub fn wxwz(&self) -> Self {
@@ -2704,7 +2708,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to x, `z` set to w and `w` set to w
     #[inline]
     pub fn wxww(&self) -> Self {
@@ -2715,7 +2719,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to x and `w` set to x
     #[inline]
     pub fn wyxx(&self) -> Self {
@@ -2726,7 +2730,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to x and `w` set to y
     #[inline]
     pub fn wyxy(&self) -> Self {
@@ -2737,7 +2741,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to x and `w` set to z
     #[inline]
     pub fn wyxz(&self) -> Self {
@@ -2748,7 +2752,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to x and `w` set to w
     #[inline]
     pub fn wyxw(&self) -> Self {
@@ -2759,7 +2763,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to y and `w` set to x
     #[inline]
     pub fn wyyx(&self) -> Self {
@@ -2770,7 +2774,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to y and `w` set to y
     #[inline]
     pub fn wyyy(&self) -> Self {
@@ -2781,7 +2785,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to y and `w` set to z
     #[inline]
     pub fn wyyz(&self) -> Self {
@@ -2792,7 +2796,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to y and `w` set to w
     #[inline]
     pub fn wyyw(&self) -> Self {
@@ -2803,7 +2807,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to z and `w` set to x
     #[inline]
     pub fn wyzx(&self) -> Self {
@@ -2814,7 +2818,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to z and `w` set to y
     #[inline]
     pub fn wyzy(&self) -> Self {
@@ -2825,7 +2829,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to z and `w` set to z
     #[inline]
     pub fn wyzz(&self) -> Self {
@@ -2836,7 +2840,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to z and `w` set to w
     #[inline]
     pub fn wyzw(&self) -> Self {
@@ -2847,7 +2851,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to w and `w` set to x
     #[inline]
     pub fn wywx(&self) -> Self {
@@ -2858,7 +2862,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to w and `w` set to y
     #[inline]
     pub fn wywy(&self) -> Self {
@@ -2869,7 +2873,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to w and `w` set to z
     #[inline]
     pub fn wywz(&self) -> Self {
@@ -2880,7 +2884,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to y, `z` set to w and `w` set to w
     #[inline]
     pub fn wyww(&self) -> Self {
@@ -2891,7 +2895,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to x and `w` set to x
     #[inline]
     pub fn wzxx(&self) -> Self {
@@ -2902,7 +2906,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to x and `w` set to y
     #[inline]
     pub fn wzxy(&self) -> Self {
@@ -2913,7 +2917,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to x and `w` set to z
     #[inline]
     pub fn wzxz(&self) -> Self {
@@ -2924,7 +2928,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to x and `w` set to w
     #[inline]
     pub fn wzxw(&self) -> Self {
@@ -2935,7 +2939,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to y and `w` set to x
     #[inline]
     pub fn wzyx(&self) -> Self {
@@ -2946,7 +2950,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to y and `w` set to y
     #[inline]
     pub fn wzyy(&self) -> Self {
@@ -2957,7 +2961,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to y and `w` set to z
     #[inline]
     pub fn wzyz(&self) -> Self {
@@ -2968,7 +2972,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to y and `w` set to w
     #[inline]
     pub fn wzyw(&self) -> Self {
@@ -2979,7 +2983,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to z and `w` set to x
     #[inline]
     pub fn wzzx(&self) -> Self {
@@ -2990,7 +2994,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to z and `w` set to y
     #[inline]
     pub fn wzzy(&self) -> Self {
@@ -3001,7 +3005,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to z and `w` set to z
     #[inline]
     pub fn wzzz(&self) -> Self {
@@ -3012,7 +3016,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to z and `w` set to w
     #[inline]
     pub fn wzzw(&self) -> Self {
@@ -3023,7 +3027,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to w and `w` set to x
     #[inline]
     pub fn wzwx(&self) -> Self {
@@ -3034,7 +3038,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to w and `w` set to y
     #[inline]
     pub fn wzwy(&self) -> Self {
@@ -3045,7 +3049,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to w and `w` set to z
     #[inline]
     pub fn wzwz(&self) -> Self {
@@ -3056,7 +3060,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to z, `z` set to w and `w` set to w
     #[inline]
     pub fn wzww(&self) -> Self {
@@ -3067,7 +3071,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to x and `w` set to x
     #[inline]
     pub fn wwxx(&self) -> Self {
@@ -3078,7 +3082,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to x and `w` set to y
     #[inline]
     pub fn wwxy(&self) -> Self {
@@ -3089,7 +3093,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to x and `w` set to z
     #[inline]
     pub fn wwxz(&self) -> Self {
@@ -3100,7 +3104,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to x and `w` set to w
     #[inline]
     pub fn wwxw(&self) -> Self {
@@ -3111,7 +3115,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to y and `w` set to x
     #[inline]
     pub fn wwyx(&self) -> Self {
@@ -3122,7 +3126,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to y and `w` set to y
     #[inline]
     pub fn wwyy(&self) -> Self {
@@ -3133,7 +3137,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to y and `w` set to z
     #[inline]
     pub fn wwyz(&self) -> Self {
@@ -3144,7 +3148,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to y and `w` set to w
     #[inline]
     pub fn wwyw(&self) -> Self {
@@ -3155,7 +3159,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to z and `w` set to x
     #[inline]
     pub fn wwzx(&self) -> Self {
@@ -3166,7 +3170,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to z and `w` set to y
     #[inline]
     pub fn wwzy(&self) -> Self {
@@ -3177,7 +3181,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to z and `w` set to z
     #[inline]
     pub fn wwzz(&self) -> Self {
@@ -3188,7 +3192,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to z and `w` set to w
     #[inline]
     pub fn wwzw(&self) -> Self {
@@ -3199,7 +3203,7 @@ impl Vec4<f32> {
             w: self.w
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to w and `w` set to x
     #[inline]
     pub fn wwwx(&self) -> Self {
@@ -3210,7 +3214,7 @@ impl Vec4<f32> {
             w: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to w and `w` set to y
     #[inline]
     pub fn wwwy(&self) -> Self {
@@ -3221,7 +3225,7 @@ impl Vec4<f32> {
             w: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to w and `w` set to z
     #[inline]
     pub fn wwwz(&self) -> Self {
@@ -3232,7 +3236,7 @@ impl Vec4<f32> {
             w: self.z
         }
     }
-    /// "Swizzle-like" method returning a new Vec4<f32> with `x` set to w,
+    /// "Swizzle-like" method returning a new Vec4 with `x` set to w,
     /// `y` set to w, `z` set to w and `w` set to w
     #[inline]
     pub fn wwww(&self) -> Self {
@@ -3244,9 +3248,9 @@ impl Vec4<f32> {
         }
     }
 
-    /// Returns this Vec4<f32> as a 3 element array
+    /// Returns this Vec4<T> as a 4 element array
     #[inline]
-    pub fn as_array(&self) -> [f32; 4] {
+    pub fn as_array(&self) -> [T; 4] {
         [self.x, self.y, self.z, self.w]
     }
 }
@@ -3298,19 +3302,20 @@ impl Vec4<f32> {
     }
 }
 
-/// Mutate methods for Vec4<f32>
-impl Vec4<f32> {
-    /// Sets a mutable Vec4<f32> to values x, y, z and w
+/// Mutate methods for Vec4<T> where T implements the Copy trait (this includes
+/// built-in types such as f32, u32, etc.)
+impl<T> Vec4<T> where T: Copy {
+    /// Sets a mutable Vec4 to values x, y, z and w
     #[inline]
-    pub fn set(&mut self, x: f32, y: f32, z: f32, w: f32) {
+    pub fn set(&mut self, x: T, y: T, z: T, w: T) {
         self.x = x;
         self.y = y;
         self.z = z;
         self.w = w;
     }
-    /// Sets a mutable Vec4<f32> to values in a three element f32 array
+    /// Sets a mutable Vec4 to values in a four element f32 array
     #[inline]
-    pub fn set_array(&mut self, a: [f32; 4]) {
+    pub fn set_array(&mut self, a: [T; 4]) {
         self.x = a[0];
         self.y = a[1];
         self.z = a[2];

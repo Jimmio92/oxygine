@@ -83,19 +83,20 @@ impl Vec2<f32> {
     }
 }
 
-/// Get methods for Vec2<f32>
-impl Vec2<f32> {
+/// Get methods for Vec2<T> where T implements the Copy trait (this includes
+/// built-in types such as f32, u32, etc.)
+impl<T> Vec2<T> where T: Copy {
     /// "Swizzle-like" method returning the x value
     #[inline]
-    pub fn x(&self) -> f32 {
+    pub fn x(&self) -> T {
         self.x
     }
     /// "Swizzle-like" method returning the y value
     #[inline]
-    pub fn y(&self) -> f32 {
+    pub fn y(&self) -> T {
         self.y
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to x and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
     /// `y` set to x
     #[inline]
     pub fn xx(&self) -> Self {
@@ -104,7 +105,7 @@ impl Vec2<f32> {
             y: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to x and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
     /// `y` set to y
     #[inline]
     pub fn xy(&self) -> Self {
@@ -113,7 +114,7 @@ impl Vec2<f32> {
             y: self.y
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to y and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
     /// `y` set to x
     #[inline]
     pub fn yx(&self) -> Self {
@@ -122,7 +123,7 @@ impl Vec2<f32> {
             y: self.x
         }
     }
-    /// "Swizzle-like" method returning a new Vec2<f32> with `x` set to y and
+    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
     /// `y` set to y
     #[inline]
     pub fn yy(&self) -> Self {
@@ -131,9 +132,9 @@ impl Vec2<f32> {
             y: self.y
         }
     }
-    /// Returns this Vec2<f32> as a 2 element array
+    /// Returns this Vec2 as a 2 element array
     #[inline]
-    pub fn as_array(&self) -> [f32;2] {
+    pub fn as_array(&self) -> [T; 2] {
         [self.x, self.y]
     }
 }
@@ -183,17 +184,18 @@ impl Vec2<f32> {
     }
 }
 
-/// Mutate methods for Vec2<f32>
-impl Vec2<f32> {
+/// Mutate methods for Vec2<T> where T implements the Copy trait (this includes
+/// built-in types such as f32, u32, etc.)
+impl<T> Vec2<T> where T: Copy {
     /// Sets a mutable Vec2<f32> to values x and y
     #[inline]
-    pub fn set(&mut self, x: f32, y: f32) {
+    pub fn set(&mut self, x: T, y: T) {
         self.x = x;
         self.y = y;
     }
-    /// Sets a mutable Vec2<f32> to values in a two element f32 array
+    /// Sets a mutable Vec2<f32> to values in a two element array
     #[inline]
-    pub fn set_array(&mut self, a: [f32; 2]) {
+    pub fn set_array(&mut self, a: [T; 2]) {
         self.x = a[0];
         self.y = a[1];
     }
