@@ -3,8 +3,8 @@ use std::ops::{Index, IndexMut, Mul, MulAssign, Div, DivAssign, Add, AddAssign,
 
 #[derive(Copy,Clone,PartialEq,Eq,Debug)]
 pub struct Vec2<T> {
-    x: T,
-    y: T
+    pub x: T,
+    pub y: T
 }
 
 /// Vec2<T> methods
