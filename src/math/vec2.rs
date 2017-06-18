@@ -1,99 +1,118 @@
 use std::ops::{Index, IndexMut, Mul, MulAssign, Div, DivAssign, Add, AddAssign,
                Sub, SubAssign};
 
-#[derive(Copy,Clone,PartialEq,Eq,Debug)]
+#[derive(Copy,Clone,PartialEq,Eq,PartialOrd,Ord,Debug)]
+/// Vec2 stores 2 elements of any type with specialization for f32
+///
+/// Vec2 is used to store a 2 dimensional point or direction when using f32
+/// as the type. This then provides more useful things (such as
+/// [`dot`](#method.dot) product, and directional constructors such as
+/// [`left`](#method.left) and [`right`](#method.right).
 pub struct Vec2<T> {
+    /// The x coordinate/element (index 0)
     pub x: T,
+    /// The y coordinate/element (index 1)
     pub y: T
 }
 
-/// Vec2<T> methods
+/// Generic Vec2 methods
 impl<T> Vec2<T> where T: Copy {
-    fn from(x: T, y: T) -> Self {
+    /// Constructs a new Vec2 from values `x` and `y`
+    pub fn from(x: T, y: T) -> Self {
         Vec2 {
             x: x,
             y: y
         }
     }
-    fn from_array(a: [T; 2]) -> Self {
+    /// Constructs a new Vec2 from a 2 element array in [x, y] order
+    pub fn from_array(a: [T; 2]) -> Self {
         Vec2 {
             x: a[0],
             y: a[1]
         }
     }
-    fn to_array(&self) -> [T; 2] {
+    /// Returns a Vec2 as a 2 element array in [x, y] order
+    pub fn to_array(&self) -> [T; 2] {
         [self.x, self.y]
     }
 
-    fn set(&mut self, x: T, y: T) {
+    /// Sets a Vec2 to the values x = `x` and y = `y`
+    pub fn set(&mut self, x: T, y: T) {
         self.x = x;
         self.y = y;
     }
-    fn set_array(&mut self, a: [T; 2]) {
+    /// Sets a Vec2 to the values of a 2 element array in [x, y] order
+    pub fn set_array(&mut self, a: [T; 2]) {
         self.x = a[0];
         self.y = a[1];
     }
-
-    fn x(&self) -> T {
-        self.x
-    }
-    fn y(&self) -> T {
-        self.y
-    }
-    fn xx(&self) -> Self {
-        Vec2::from(self.x, self.x)
-    }
-    fn xy(&self) -> Self {
-        Vec2::from(self.x, self.y)
-    }
-    fn yx(&self) -> Self {
-        Vec2::from(self.y, self.x)
-    }
-    fn yy(&self) -> Self {
-        Vec2::from(self.y, self.y)
-    }
 }
 
-/// Vec2<f32> methods
+include!(concat!(env!("OUT_DIR"), "/vec2_swizzle.rs"));
+
+/// f32 specialized Vec2 methods
 impl Vec2<f32> {
-    fn zero() -> Self {
+    /// Returns a new Vec2 with x set to 0 and y set to 0
+    pub fn zero() -> Self {
         Vec2::from(0.0f32, 0.0f32)
     }
-    fn one() -> Self {
+    /// Returns a new Vec2 with x set to 1 and y set to 1
+    pub fn one() -> Self {
         Vec2::from(1.0f32, 1.0f32)
     }
-    fn left() -> Self {
+    /// Returns a new Vec2 with x set to -1 and y set to 0
+    pub fn left() -> Self {
         Vec2::from(-1.0f32, 0.0f32)
     }
-    fn right() -> Self {
+    /// Returns a new Vec2 with x set to 1 and y set to 0
+    pub fn right() -> Self {
         Vec2::from(1.0f32, 0.0f32)
     }
-    fn down() -> Self {
+    /// Returns a new Vec2 with x set to 0 and y set to -1
+    pub fn down() -> Self {
         Vec2::from(0.0f32, -1.0f32)
     }
-    fn up() -> Self {
+    /// Returns a new Vec2 with x set to 0 and y set to 1
+    pub fn up() -> Self {
         Vec2::from(0.0f32, 1.0f32)
     }
 
-    fn dot(&self) -> f32 {
+    /// Calculates the dot product of a Vec2
+    pub fn dot(&self) -> f32 {
         self.x*self.x + self.y*self.y
     }
-    fn length_squared(&self) -> f32 {
+    /// Calculates the length squared of a Vec2
+    ///
+    /// Note that the actual length of a Vec2 requires a square root operation
+    /// that this method purposely avoids for faster comparison of lengths.
+    pub fn length_squared(&self) -> f32 {
         self.dot()
     }
-    fn length(&self) -> f32 {
+    /// Calculates the length of a Vec2
+    pub fn length(&self) -> f32 {
         self.length_squared().sqrt()
     }
-    fn normalized(&self) -> Self {
+    /// Returns a new Vec2 with values normalized (unit length)
+    pub fn normalized(&self) -> Self {
         let len = self.length();
         Vec2::from(self.x/len, self.y/len)
     }
-    fn normalize_self(&mut self) {
+    /// Mutates self to become normalized (unit length)
+    pub fn normalize_self(&mut self) {
         let len = self.length();
         self.x /= len;
         self.y /= len;
     }
-    fn distance(&self, b: &Self) -> f32 {
+    /// Calculates the distance squared between two Vec2s
+    ///
+    /// Note that the actual distance between two Vec2s requires a square root
+    /// operation that this method purposely avoids for faster comparison of
+    /// distances.
+    pub fn distance_squared(&self, b: &Self) -> f32 {
+        (*self - *b).length_squared()
+    }
+    /// Calculates the distance between two Vec2s
+    pub fn distance(&self, b: &Self) -> f32 {
         (*self - *b).length()
     }
 }
@@ -104,7 +123,8 @@ impl<T> Index<usize> for Vec2<T> {
     fn index(&self, i: usize) -> &T {
         match i {
             0 => &self.x,
-            _ => &self.y
+            1 => &self.y,
+            _ => panic!("Attempted to index Vec2<T> out of range!")
         }
     }
 }
@@ -112,7 +132,8 @@ impl<T> IndexMut<usize> for Vec2<T> {
     fn index_mut(&mut self, i: usize) -> &mut T {
         match i {
             0 => &mut self.x,
-            _ => &mut self.y
+            1 => &mut self.y,
+            _ => panic!("Attempted to index_mut Vec2<T> out of range!")
         }
     }
 }

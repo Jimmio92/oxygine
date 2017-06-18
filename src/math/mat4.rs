@@ -19,15 +19,12 @@ impl Mat4 {
                    0.0, 0.0, 0.0, 1.0]
         }
     }
-    /// Constructs a new Mat4
-    ///
-    /// Note that this method is the same as [identity](#method.identity) and is
-    /// provided for convenience
+    /// Constructs a new Mat4 and sets it to identity
     pub fn new() -> Self {
         Self::identity()
     }
 
-    /// Construct a new Mat4 from an array of 16 f32
+    /// Construct a new Mat4 from a 16 element array of f32
     pub fn from_array(a: [f32; 16]) -> Self {
         Mat4 {
             data: a
@@ -41,10 +38,6 @@ impl Mat4 {
     pub fn as_array(&self) -> [f32; 16] {
         self.data
     }
-}
-
-/// Calc methods for Mat4
-impl Mat4 {
 }
 
 /// Mutate methods for Mat4
@@ -125,6 +118,14 @@ impl Mat4 {
         self.rotate_x(v.x);
         self.rotate_y(v.y);
     }
+    /// Scale Mat4 by Vec3<f32>
+    pub fn scale(&mut self, v: super::vec3::Vec3<f32>) {
+        let m = &mut self.data;
+
+        m[0] *= v.x; m[4] *= v.x; m[ 8] *= v.x;
+        m[1] *= v.y; m[5] *= v.y; m[ 9] *= v.y;
+        m[2] *= v.z; m[6] *= v.z; m[10] *= v.z;
+    }
 
     /// Set Mat4 translation
     pub fn set_translation(&mut self, v: super::vec3::Vec3<f32>) {
@@ -175,7 +176,7 @@ impl Mat4 {
         self.data[14] = f;
     }
     /// Set Mat4 perspective projection
-    pub fn set_perspective(&mut self, fov: f32, aspect: f32, z_near: f32,
+    pub fn set_perspective(&mut self, fov: super::Angle<f32>, aspect: f32, z_near: f32,
                            z_far: f32) {
         let (a,b,c,d);
 

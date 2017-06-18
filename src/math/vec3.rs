@@ -1,22 +1,25 @@
-use std::ops::{Mul, Div, Add, Sub};
+use std::ops::{Index, IndexMut, Mul, MulAssign, Div, DivAssign, Add, AddAssign,
+               Sub, SubAssign};
 
-/// Stores a 3 dimensional coordinate set
+#[derive(Copy,Clone,PartialEq,Eq,PartialOrd,Ord,Debug)]
+/// Vec3 stores 3 elements of any type with specialization for f32
 ///
-/// Note that it is used as a point, as a direction, and as general 3 item
-/// storage.
-#[derive(Copy,Clone,PartialEq)]
+/// Vec3 is used to store a 3 dimensional point or direction when using f32
+/// as the type. This then provides more useful things (such as
+/// [`dot`](#method.dot) product, and directional constructors such as
+/// [`left`](#method.left) and [`right`](#method.right).
 pub struct Vec3<T> {
-    /// x (index 0) element
+    /// The x coordinate/element (index 0)
     pub x: T,
-    /// y (index 1) element
+    /// The y coordinate/element (index 1)
     pub y: T,
-    /// z (index 2) element
+    /// The z coordinate/element (index 2)
     pub z: T
 }
 
-/// Construct methods for generic Vec3
-impl<T> Vec3<T> {
-    /// Constructs a generic Vec2 from values x and y
+/// Generic Vec3 methods
+impl<T> Vec3<T> where T: Copy {
+    /// Constructs a new Vec3 from values `x`, `y` and `z`
     pub fn from(x: T, y: T, z: T) -> Self {
         Vec3 {
             x: x,
@@ -24,540 +27,26 @@ impl<T> Vec3<T> {
             z: z
         }
     }
-}
-
-/// Construct methods for Vec3<f32>
-impl Vec3<f32> {
-    /// Constructs a new Vec3<f32> with x, y and z values set to 0
-    #[inline]
-    pub fn zero() -> Self {
+    /// Constructs a new Vec3 from a 3 element array in [x, y, z] order
+    pub fn from_array(a: [T; 3]) -> Self {
         Vec3 {
-            x: 0.0,
-            y: 0.0,
-            z: 0.0
+            x: a[0],
+            y: a[1],
+            z: a[2]
         }
     }
-    /// Constructs a new Vec3<f32> with x, y and z values set to 0
-    ///
-    /// Same as [zero](#method.zero), provided for ease of use
-    #[inline]
-    pub fn new() -> Self {
-        Self::zero()
-    }
-    /// Constructs a new Vec3<f32> with x, y and z values set to 1
-    #[inline]
-    pub fn one() -> Self {
-        Vec3 {
-            x: 1.0,
-            y: 1.0,
-            z: 1.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward negative X (left)
-    #[inline]
-    pub fn left() -> Self {
-        Vec3 {
-            x: -1.0,
-            y:  0.0,
-            z:  0.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward positive X
-    /// (right)
-    #[inline]
-    pub fn right() -> Self {
-        Vec3 {
-            x: 1.0,
-            y: 0.0,
-            z: 0.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward negative Y (down)
-    #[inline]
-    pub fn down() -> Self {
-        Vec3 {
-            x:  0.0,
-            y: -1.0,
-            z:  0.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward positive Y
-    /// (right)
-    #[inline]
-    pub fn up() -> Self {
-        Vec3 {
-            x: 0.0,
-            y: 1.0,
-            z: 0.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward negative Z
-    /// (backward)
-    #[inline]
-    pub fn backward() -> Self {
-        Vec3 {
-            x:  0.0,
-            y:  0.0,
-            z: -1.0
-        }
-    }
-    /// Constructs a new unit-length Vec3<f32> pointing toward positive Z
-    /// (forward)
-    #[inline]
-    pub fn forward() -> Self {
-        Vec3 {
-            x: 0.0,
-            y: 0.0,
-            z: 1.0
-        }
-    }
-}
-
-/// Get methods for Vec3<T> where T implements the Copy trait (this includes
-/// built-in types such as f32, u32, etc.)
-impl<T> Vec3<T> where T: Copy {
-    /// "Swizzle-like" method returning the x value
-    #[inline]
-    pub fn x(&self) -> T {
-        self.x
-    }
-    /// "Swizzle-like" method returning the y value
-    #[inline]
-    pub fn y(&self) -> T {
-        self.y
-    }
-    /// "Swizzle-like" method returning the z value
-    pub fn z(&self) -> T {
-        self.z
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
-    /// `y` set to x
-    #[inline]
-    pub fn xx(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.x,
-            y: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
-    /// `y` set to y
-    #[inline]
-    pub fn xy(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.x,
-            y: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to x and
-    /// `y` set to z
-    #[inline]
-    pub fn xz(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.x,
-            y: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
-    /// `y` set to x
-    #[inline]
-    pub fn yx(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.y,
-            y: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
-    /// `y` set to y
-    #[inline]
-    pub fn yy(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.y,
-            y: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to y and
-    /// `y` set to z
-    #[inline]
-    pub fn yz(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.y,
-            y: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
-    /// `y` set to x
-    #[inline]
-    pub fn zx(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.z,
-            y: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
-    /// `y` set to y
-    #[inline]
-    pub fn zy(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.z,
-            y: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec2 with `x` set to z and
-    /// `y` set to z
-    #[inline]
-    pub fn zz(&self) -> super::vec2::Vec2<T> {
-        super::vec2::Vec2 {
-            x: self.z,
-            y: self.z
-        }
-    }
-
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to x and `z` set to x
-    #[inline]
-    pub fn xxx(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.x,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to x and `z` set to y
-    #[inline]
-    pub fn xxy(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.x,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to x and `z` set to z
-    #[inline]
-    pub fn xxz(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.x,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to y and `z` set to x
-    #[inline]
-    pub fn xyx(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.y,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to y and `z` set to y
-    #[inline]
-    pub fn xyy(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.y,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to y and `z` set to z
-    #[inline]
-    pub fn xyz(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.y,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to z and `z` set to x
-    #[inline]
-    pub fn xzx(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.z,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to z and `z` set to y
-    #[inline]
-    pub fn xzy(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.z,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to x,
-    /// `y` set to z and `z` set to z
-    #[inline]
-    pub fn xzz(&self) -> Self {
-        Vec3 {
-            x: self.x,
-            y: self.z,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to x and `z` set to x
-    #[inline]
-    pub fn yxx(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.x,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to x and `z` set to y
-    #[inline]
-    pub fn yxy(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.x,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to x and `z` set to z
-    #[inline]
-    pub fn yxz(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.x,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to y and `z` set to x
-    #[inline]
-    pub fn yyx(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.y,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to y and `z` set to y
-    #[inline]
-    pub fn yyy(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.y,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to y and `z` set to z
-    #[inline]
-    pub fn yyz(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.y,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to z and `z` set to x
-    #[inline]
-    pub fn yzx(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.z,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to z and `z` set to y
-    #[inline]
-    pub fn yzy(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.z,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to y,
-    /// `y` set to z and `z` set to z
-    #[inline]
-    pub fn yzz(&self) -> Self {
-        Vec3 {
-            x: self.y,
-            y: self.z,
-            z: self.z
-        }
-    }
-
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to x and `z` set to x
-    #[inline]
-    pub fn zxx(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.x,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to x and `z` set to y
-    #[inline]
-    pub fn zxy(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.x,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to x and `z` set to z
-    #[inline]
-    pub fn zxz(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.x,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to y and `z` set to x
-    #[inline]
-    pub fn zyx(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.y,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to y and `z` set to y
-    #[inline]
-    pub fn zyy(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.y,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to y and `z` set to z
-    #[inline]
-    pub fn zyz(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.y,
-            z: self.z
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to z and `z` set to x
-    #[inline]
-    pub fn zzx(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.z,
-            z: self.x
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to z and `z` set to y
-    #[inline]
-    pub fn zzy(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.z,
-            z: self.y
-        }
-    }
-    /// "Swizzle-like" method returning a new Vec3 with `x` set to z,
-    /// `y` set to z and `z` set to z
-    #[inline]
-    pub fn zzz(&self) -> Self {
-        Vec3 {
-            x: self.z,
-            y: self.z,
-            z: self.z
-        }
-    }
-
-    /// Returns this Vec3 as a 3 element array
-    #[inline]
-    pub fn as_array(&self) -> [T; 3] {
+    /// Returns a Vec3 as a 3 element array in [x, y, z] order
+    pub fn to_array(&self) -> [T; 3] {
         [self.x, self.y, self.z]
     }
-}
 
-/// Calc methods for Vec3<f32>
-impl Vec3<f32> {
-    /// Calculates the dot product of two Vec3<f32>
-    #[inline]
-    pub fn dot(&self, rhs: &Self) -> f32 {
-        self.x*rhs.x + self.y*rhs.y + self.z*rhs.z
-    }
-    /// Calculates the cross product of two Vec3<f32>
-    #[inline]
-    pub fn cross(&self, rhs: &Self) -> Self {
-        Vec3 {
-            x: self.y*rhs.z - self.z*rhs.y,
-            y: self.z*rhs.x - self.x*rhs.z,
-            z: self.x*rhs.y - self.y*rhs.x
-        }
-    }
-    /// Calculates the square-length of this Vec3<f32>
-    ///
-    /// This can be used for faster comparisons of lengths of vectors, but is
-    /// not a replacement for [len](#method.len).
-    #[inline]
-    pub fn sqr_len(&self) -> f32 {
-        self.dot(self)
-    }
-    /// Calculates the length of this Vec3<f32>
-    #[inline]
-    pub fn len(&self) -> f32 {
-        self.sqr_len().sqrt()
-    }
-    /// Calculates the square-distance between two Vec3<f32>
-    ///
-    /// This can be used for faster comparisons of distances, but is not a
-    /// replacement for [dist](#method.dist)
-    #[inline]
-    pub fn sqr_dist(&self, b: &Self) -> f32 {
-        (*self - *b).sqr_len()
-    }
-    /// Calculates the distance between two Vec3<f32>
-    #[inline]
-    pub fn dist(&self, b: &Self) -> f32 {
-        (*self - *b).len()
-    }
-    /// Calculates and returns a normalized copy of this Vec3<f32>
-    #[inline]
-    pub fn normalized(&self) -> Self {
-        let len = self.len();
-
-        Vec3 {
-            x: self.x/len,
-            y: self.y/len,
-            z: self.z/len
-        }
-    }
-}
-
-/// Mutate methods for Vec3<T> where T implements the Copy trait (this includes
-/// built-in types such as f32, u32, etc.)
-impl<T> Vec3<T> where T: Copy{
-    /// Sets a mutable Vec3 to values x, y and z
-    #[inline]
+    /// Sets a Vec3 to the values x = `x`, y = `y`, and z = `z`
     pub fn set(&mut self, x: T, y: T, z: T) {
         self.x = x;
         self.y = y;
         self.z = z;
     }
-    /// Sets a mutable Vec3 to values in a three element array
-    #[inline]
+    /// Sets a Vec3 to the values of a 3 element array in [x, y, z] order
     pub fn set_array(&mut self, a: [T; 3]) {
         self.x = a[0];
         self.y = a[1];
@@ -565,50 +54,223 @@ impl<T> Vec3<T> where T: Copy{
     }
 }
 
-impl Mul for Vec3<f32> {
-    type Output = Vec3<f32>;
-    fn mul(self, rhs: Self) -> Self {
-        Vec3 {
-            x: self.x*rhs.x,
-            y: self.y*rhs.y,
-            z: self.z*rhs.z
-        }
+include!(concat!(env!("OUT_DIR"), "/vec3_swizzle.rs"));
+
+/// f32 specialized Vec3 methods
+impl Vec3<f32> {
+    /// Returns a new Vec3 with x set to 0, y set to 0 and z set to 0
+    pub fn zero() -> Self {
+        Vec3::from(0.0f32, 0.0f32, 0.0f32)
     }
-}
-impl Div for Vec3<f32> {
-    type Output = Vec3<f32>;
-    fn div(self, rhs: Self) -> Self {
-        Vec3 {
-            x: self.x/rhs.x,
-            y: self.y/rhs.y,
-            z: self.z/rhs.z
-        }
+    /// Returns a new Vec3 with x set to 1, y set to 1 and z set to 1
+    pub fn one() -> Self {
+        Vec3::from(1.0f32, 1.0f32, 1.0f32)
     }
-}
-impl Add for Vec3<f32> {
-    type Output = Vec3<f32>;
-    fn add(self, rhs: Self) -> Self {
-        Vec3 {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-            z: self.z + rhs.z
-        }
+    /// Returns a new Vec3 with x set to -1, y set to 0 and z set to 0
+    pub fn left() -> Self {
+        Vec3::from(-1.0f32, 0.0f32, 0.0f32)
     }
-}
-impl Sub for Vec3<f32> {
-    type Output = Vec3<f32>;
-    fn sub(self, rhs: Self) -> Self {
-        Vec3 {
-            x: self.x - rhs.x,
-            y: self.y - rhs.y,
-            z: self.z - rhs.z
-        }
+    /// Returns a new Vec3 with x set to 1, y set to 0 and z set to 0
+    pub fn right() -> Self {
+        Vec3::from(1.0f32, 0.0f32, 0.0f32)
+    }
+    /// Returns a new Vec3 with x set to 0, y set to -1, and z set to 0
+    pub fn down() -> Self {
+        Vec3::from(0.0f32, -1.0f32, 0.0f32)
+    }
+    /// Returns a new Vec3 with x set to 0, y set to 1 and z set to 0
+    pub fn up() -> Self {
+        Vec3::from(0.0f32, 1.0f32, 0.0f32)
+    }
+    /// Returns a new Vec3 with x set to 0, y set to 0 and z set to -1
+    pub fn backward() -> Self {
+        Vec3::from(0.0f32, 0.0f32, -1.0f32)
+    }
+    /// Returns a new Vec3 with x set to 0, y set to 0 and z set to 1
+    pub fn forward() -> Self {
+        Vec3::from(0.0f32, 0.0f32, 1.0f32)
+    }
+
+    /// Calculates the dot product of a Vec3
+    pub fn dot(&self) -> f32 {
+        self.x*self.x + self.y*self.y + self.z*self.z
+    }
+    /// Calculates the cross product of two Vec3s
+    pub fn cross(&self, b: Self) -> Self {
+        Vec3::from(
+            self.y*b.z - self.z*b.y,
+            self.z*b.x - self.x*b.z,
+            self.x*b.y - self.y*b.x
+        )
+    }
+    /// Calculates the length squared of a Vec3
+    ///
+    /// Note that the actual length of a Vec3 requires a square root operation
+    /// that this method purposely avoids for faster comparison of lengths.
+    pub fn length_squared(&self) -> f32 {
+        self.dot()
+    }
+    /// Calculates the length of a Vec3
+    pub fn length(&self) -> f32 {
+        self.length_squared().sqrt()
+    }
+    /// Returns a new Vec3 with values normalized (unit length)
+    pub fn normalized(&self) -> Self {
+        let len = self.length();
+        Vec3::from(self.x/len, self.y/len, self.z/len)
+    }
+    /// Mutates self to become normalized (unit length)
+    pub fn normalize_self(&mut self) {
+        let len = self.length();
+        self.x /= len;
+        self.y /= len;
+        self.z /= len;
+    }
+    /// Calculates the distance squared between two Vec3s
+    ///
+    /// Note that the actual distance between two Vec3s requires a square root
+    /// operation that this method purposely avoids for faster comparison of
+    /// distances.
+    pub fn distance_squared(&self, b: &Self) -> f32 {
+        (*self - *b).length_squared()
+    }
+    /// Calculates the distance between two Vec3s
+    pub fn distance(&self, b: &Self) -> f32 {
+        (*self - *b).length()
     }
 }
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn dot_test() {
+impl<T> Index<usize> for Vec3<T> {
+    type Output = T;
+
+    fn index(&self, i: usize) -> &T {
+        match i {
+            0 => &self.x,
+            1 => &self.y,
+            2 => &self.z,
+            _ => panic!("Attempted to index Vec3<T> out of range!")
+        }
+    }
+}
+impl<T> IndexMut<usize> for Vec3<T> {
+    fn index_mut(&mut self, i: usize) -> &mut T {
+        match i {
+            0 => &mut self.x,
+            1 => &mut self.y,
+            2 => &mut self.z,
+            _ => panic!("Attempted to index_mut Vec3<T> out of range!")
+        }
+    }
+}
+impl<T> Mul<Self> for Vec3<T> where T: Mul<T, Output = T> + Copy {
+    type Output = Vec3<T>;
+
+    fn mul(self, rhs: Vec3<T>) -> Vec3<T> {
+        Vec3::from(self.x*rhs.x, self.y*rhs.y, self.z*rhs.z)
+    }
+}
+impl<T> Mul<T> for Vec3<T> where T: Mul<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn mul(self, rhs: T) -> Self {
+        Vec3::from(self.x*rhs, self.y*rhs, self.z*rhs)
+    }
+}
+impl<T> MulAssign<Self> for Vec3<T> where T: MulAssign<T> + Copy {
+    fn mul_assign(&mut self, rhs: Vec3<T>) {
+        self.x *= rhs.x;
+        self.y *= rhs.y;
+        self.z *= rhs.z;
+    }
+}
+impl<T> MulAssign<T> for Vec3<T> where T: MulAssign<T> + Copy {
+    fn mul_assign(&mut self, rhs: T) {
+        self.x *= rhs;
+        self.y *= rhs;
+        self.z *= rhs;
+    }
+}
+impl<T> Div<Self> for Vec3<T> where T: Div<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn div(self, rhs: Self) -> Self::Output {
+        Vec3::from(self.x/rhs.x, self.y/rhs.y, self.z/rhs.z)
+    }
+}
+impl<T> Div<T> for Vec3<T> where T: Div<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn div(self, rhs: T) -> Self::Output {
+        Vec3::from(self.x/rhs, self.y/rhs, self.z/rhs)
+    }
+}
+impl<T> DivAssign<Self> for Vec3<T> where T: DivAssign<T> + Copy {
+    fn div_assign(&mut self, rhs: Vec3<T>) {
+        self.x /= rhs.x;
+        self.y /= rhs.y;
+        self.z /= rhs.z;
+    }
+}
+impl<T> DivAssign<T> for Vec3<T> where T: DivAssign<T> + Copy {
+    fn div_assign(&mut self, rhs: T) {
+        self.x /= rhs;
+        self.y /= rhs;
+        self.z /= rhs;
+    }
+}
+impl<T> Add<Self> for Vec3<T> where T: Add<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Vec3::from(self.x + rhs.x, self.y + rhs.y, self.z + rhs.z)
+    }
+}
+impl<T> Add<T> for Vec3<T> where T: Add<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn add(self, rhs: T) -> Self::Output {
+        Vec3::from(self.x + rhs, self.y + rhs, self.z + rhs)
+    }
+}
+impl<T> AddAssign<Self> for Vec3<T> where T: AddAssign<T> + Copy {
+    fn add_assign(&mut self, rhs: Vec3<T>) {
+        self.x += rhs.x;
+        self.y += rhs.y;
+        self.z += rhs.z;
+    }
+}
+impl<T> AddAssign<T> for Vec3<T> where T: AddAssign<T> + Copy {
+    fn add_assign(&mut self, rhs: T) {
+        self.x += rhs;
+        self.y += rhs;
+        self.z += rhs;
+    }
+}
+impl<T> Sub<Self> for Vec3<T> where T: Sub<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn sub(self, rhs: Self) -> Self::Output {
+        Vec3::from(self.x - rhs.x, self.y - rhs.y, self.z - rhs.z)
+    }
+}
+impl<T> Sub<T> for Vec3<T> where T: Sub<T, Output = T> + Copy {
+    type Output = Self;
+
+    fn sub(self, rhs: T) -> Self::Output {
+        Vec3::from(self.x - rhs, self.y - rhs, self.z - rhs)
+    }
+}
+impl<T> SubAssign<Self> for Vec3<T> where T: SubAssign<T> + Copy {
+    fn sub_assign(&mut self, rhs: Vec3<T>) {
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
+    }
+}
+impl<T> SubAssign<T> for Vec3<T> where T: SubAssign<T> + Copy {
+    fn sub_assign(&mut self, rhs: T) {
+        self.x -= rhs;
+        self.y -= rhs;
+        self.z -= rhs;
     }
 }
