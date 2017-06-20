@@ -89,7 +89,6 @@ mod tests {
     fn delta() {
         let mut time = ::Time::new();
 
-        let a = time.elapsed();
         time.update();
 
         thread::sleep(stdtime::Duration::new(0, 5000));

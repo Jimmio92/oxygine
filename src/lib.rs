@@ -8,6 +8,8 @@ pub mod math;
 pub mod time;
 use time::Time;
 
+pub mod graphics;
+
 struct Engine {
     time: Time
 }
